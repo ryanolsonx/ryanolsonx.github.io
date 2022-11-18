@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      Achieving Zen by using Vim in a minimalist way (while being highly
+      productive) - Ryan Olson
+    </title>
+    <meta
+      name="description"
+      content="Do you believe that less is more? I do. In this blog post, I reveal techniques that allow you to be highly productive in Vim with less than 12 .vimrc lines."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <main>
+      <h1>
+        Achieving Zen by using Vim in a minimalist way (while being highly
+        productive)
+      </h1>
+      By <a href="/">Ryan Olson</a>
+      <br />
+      <time datetime="2022-11-18T03:29:49Z">November 17, 2022</time>
+
+      <aside>
+        <h2>My .vimrc</h2>
+        <pre>
+syntax off
+set autoindent
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+set backspace=2
+set path+=app/javascript/**,src/**
+set number
+nn &lt;silent&gt; &lt;space&gt; :e %:h&lt;cr&gt;
+set backupdir=/tmp
+set dir=/tmp
+      </pre
+        >
+      </aside>
+
+      <h2>Overview</h2>
+
+      <p>
+        Over the past several years, I've been fascinated with "getting things
+        done" with less. I believe that a strong software engineer can be
+        productive with even the simplest of tools*. I used to
+        <em>really</em> customize my .vimrc and install dozens of plugins to get
+        all the functionality I thought I need in my Vim text editor.
+      </p>
+
+      <p>
+        * See
+        <a href="https://www.youtube.com/watch?v=RFaFmkCEGEs">Geohot</a> (a Vim
+        user with a
+        <a
+          href="https://github.com/geohot/configuration/blob/4b0b7ab5debadccb0e5a0774cb9284f62ea15d80/.vimrc"
+          >very small .vimrc</a
+        >) or <a href="https://www.twitch.tv/j_blow">Jonathan Blow</a> (an Emacs
+        user that mostly uses Emacs stock) to see that you can get a lot done
+        without an IDE
+      </p>
+    </main>
+  </body>
+</html>
