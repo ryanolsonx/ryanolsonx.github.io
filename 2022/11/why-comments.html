@@ -41,6 +41,38 @@
   </code>
   </pre>
 
+  <h3>Describing What You're Doing</h3>
+  <p>There are times you might think it's helpful to describe what you're trying to do in comments. This is a good case for writing self-documenting code.</p>
+
+  <p>From <a href="https://github.com/Microsoft/vscode/blob/main/src/cli.js#L21">TypeScripts Codebase</a>:</p>
+
+  <pre>
+  <code>
+// Enable portable support
+bootstrap.configurePortable();
+// Enable ASAR support
+bootstrap.enableASARSupport();
+  </code>
+  </pre>
+
+  <p>If you're writing a program that includes user preferences that someone can retrieve:</p>
+
+  <pre>
+  <code>
+export const getUserPreferences = id => {
+  // Get the user
+  const user = userService.getUser({ id: 15 });
+  // Get users preferences and sort by created date
+  const preferences =
+    user.preferences.sort(sortBy(‘createdDate’));
+
+  // Return the user preferences
+  return preferences;
+}
+  </code>
+  </pre>
+
+
   <p>This blog was made with ♥ using <a href="only-html.html">only html</a>.</p>
 </body>
 </html>
