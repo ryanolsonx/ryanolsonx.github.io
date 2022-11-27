@@ -72,6 +72,123 @@ export const getUserPreferences = id => {
   </code>
   </pre>
 
+  <h3>Not Self-Documenting</h3>
+
+  <p>There are many times that a comment can be replaced with a better function name.</p>
+
+  <p>From <a href=""https://github.com/facebook/react/blob/f64906fba1ccec5273e87f7ed3cdbf5a643ca44a/dangerfile.js>React.js Codebase</a> (since removed):</p>
+
+  <pre>
+  <code>
+if (!existsSync('./scripts/rollup/results.json')) {
+  // This indicates the build failed previously.
+  // In that case, there's nothing for the Dangerfile to do.
+  // Exit early to avoid leaving a redundant
+  // (and potentially confusing) PR comment.
+  process.exit(0);
+}
+  </code>
+  </pre>
+
+  <p>This can be rewritten as:</p>
+
+  <pre>
+  <code>
+if (hasBuildFailedPreviously())
+  process.exit(0);
+  </code>
+  </pre>
+
+  <h3>Excuse for Writing Bad Code</h3>
+
+  <p>You may have done this before. You're trying to get something working and you end up needing to put in a hack...</p>
+
+  <pre>
+  <code>
+// Writing this using splice because I couldn’t figure out
+// slice.. :(
+const userNames = users.splice(5).map(user => user.name);
+
+// I know I should memoize this but I don’t have time to do that
+const notes = notes.filter(isShown).map(note => note.value);
+  </code>
+  </pre>
+
+  <h2>"Why" Comments</h2>
+
+  <p><mark>By adding comments about <em>why</em> you did things the way you did, you can provide invaluable context to future readers of your code.</mark></p>
+
+  <h3>Why You Took a Certain Approach</h3>
+
+  <p>There are many times you might end of with code that someone wouldn't write the first time they attempt to solve a specific problem. To save them some time, you can provide some context as to why you ended up with your approach.</p>
+
+  <pre>
+  <code>
+/* A binary search turned out to be slower than the
+Boyer-Moore algorithm for the data sets of interest,
+thus we have used the more complex, but faster method
+even though this problem does not at first seem amenable
+to a string search technique. */
+function searchForFund(..) { ... }
+  </code>
+  </pre>
+
+  <h3>External Factors</h3>
+
+  <p>You might have some things that future developers will need to know to safely change your area of code.</p>
+
+  <pre>
+  <code>
+def user_avatar_path(user_profile: UserProfile) -> str:
+  # WARNING: If this method is changed, you may need to do
+  # a migration similar to
+  # zerver/migrations/0060_move_avatars_to_be_uid_based.py
+  return user_avatar_path_from_ids(
+    user_profile.id, user_profile.realm_id)
+  </code>
+  </pre>
+
+  <h3>Clarifying the Code</h3>
+
+  <p>In the React.js codebase, there's an area that needs clarification. If someone glances at this function where it assigns the <code>reactRootContainer</code> to <code>container._reactRootContainer</code>, they might get pretty confused. By clarifying the reasons for this code, you can make things easier to process.</p>
+
+  <pre>
+  <code>
+// This container might be used for a portal.
+// If something inside a portal is clicked, that click should bubble
+// through the React tree. However, on Mobile Safari the click would
+// never bubble through the *DOM* tree unless an ancestor with onclick
+// event exists. So we wouldn't see it and dispatch it.
+// This is why we ensure that non React root containers have inline onclick
+// defined.
+// https://github.com/facebook/react/issues/11918
+const reactRootContainer = container._reactRootContainer;
+  </code>
+  </pre>
+
+  <h3>Clarifying Business Requirements</h3>
+
+  <p>Business requirements are not always clear in "self-documenting code." It can be useful to understand the business requirements and why they are needed.</p>
+
+  <pre>
+  <code>
+// Because notifications don’t always have an email, we need to detect
+// this scenario and only attempt to send emails to people that have
+// an email address defined. We will later require all notifications
+// to have an email but for now, product has indicated that we should
+// do it this way.
+const sendEmailNotifications = (notifications) => {
+  const toSend = notifications.filter(hasEmail);
+  return sendEmails(toSend);
+}
+  </code>
+  </pre>
+
+  <h2>Why Comments</h2>
+
+  <p>Remember to help the future readers of your code by adding some comments that will give them context. Help them know why.</p>
+
+  <hr />
 
   <p>This blog was made with ♥ using <a href="only-html.html">only html</a>.</p>
 </body>
