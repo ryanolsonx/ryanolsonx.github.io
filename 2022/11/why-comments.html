@@ -35,11 +35,14 @@
 
     <pre>
     <code>
-  /* Class used to workaround Richard being a f***ing idiot*/
+  /* Class used to workaround Richard being
+     an idiot*/
 
-  // This code sucks. Just use it. Call me an idiot later.
+  // This code sucks. Just use it. Call me
+  // an idiot later.
 
-  // This code is a bit slow because Alex added that stupid hook…
+  // This code is a bit slow because Alex
+  // added that stupid hook…
     </code>
     </pre>
 
@@ -50,10 +53,10 @@
 
     <pre>
     <code>
-  // Enable portable support
-  bootstrap.configurePortable();
-  // Enable ASAR support
-  bootstrap.enableASARSupport();
+// Enable portable support
+bootstrap.configurePortable();
+// Enable ASAR support
+bootstrap.enableASARSupport();
     </code>
     </pre>
 
@@ -61,16 +64,21 @@
 
     <pre>
     <code>
-  export const getUserPreferences = id => {
-    // Get the user
-    const user = userService.getUser({ id: 15 });
-    // Get users preferences and sort by created date
-    const preferences =
-      user.preferences.sort(sortBy(‘createdDate’));
+export const getUserPreferences = id => {
+  // Get the user
+  const user = userService.getUser({
+    id: 15
+  });
 
-    // Return the user preferences
-    return preferences;
-  }
+  // Get users preferences and sort
+  // by created date
+  const preferences =
+    user.preferences
+      .sort(sortBy(‘createdDate’));
+
+  // Return the user preferences
+  return preferences;
+}
     </code>
     </pre>
 
@@ -82,13 +90,15 @@
 
     <pre>
     <code>
-  if (!existsSync('./scripts/rollup/results.json')) {
-    // This indicates the build failed previously.
-    // In that case, there's nothing for the Dangerfile to do.
-    // Exit early to avoid leaving a redundant
-    // (and potentially confusing) PR comment.
-    process.exit(0);
-  }
+if (!existsSync('./scripts/results.json')) {
+  // This indicates the build failed
+  // previously. In that case,
+  // there's nothing for the Dangerfile
+  // to do. Exit early to avoid leaving
+  // a redundant (and potentially
+  // confusing) PR comment.
+  process.exit(0);
+}
     </code>
     </pre>
 
@@ -96,8 +106,8 @@
 
     <pre>
     <code>
-  if (hasBuildFailedPreviously())
-    process.exit(0);
+if (hasBuildFailedPreviously())
+  process.exit(0);
     </code>
     </pre>
 
@@ -107,12 +117,17 @@
 
     <pre>
     <code>
-  // Writing this using splice because I couldn’t figure out
-  // slice.. :(
-  const userNames = users.splice(5).map(user => user.name);
+// Writing this using splice because I
+// couldn’t figure out slice.. :(
+const userNames = users
+  .splice(5)
+  .map(user => user.name);
 
-  // I know I should memoize this but I don’t have time to do that
-  const notes = notes.filter(isShown).map(note => note.value);
+// I know I should memoize this but
+// I don’t have time to do that
+const notes = notes
+  .filter(isShown)
+  .map(note => note.value);
     </code>
     </pre>
 
@@ -126,12 +141,14 @@
 
     <pre>
     <code>
-  /* A binary search turned out to be slower than the
-  Boyer-Moore algorithm for the data sets of interest,
-  thus we have used the more complex, but faster method
-  even though this problem does not at first seem amenable
-  to a string search technique. */
-  function searchForFund(..) { ... }
+/* A binary search turned out to be
+slower than the Boyer-Moore algorithm
+for the data sets of interest, thus
+we have used the more complex, but
+faster method even though this problem
+does not at first seem amenable to a
+string search technique. */
+function searchForFund(..) { ... }
     </code>
     </pre>
 
@@ -141,12 +158,12 @@
 
     <pre>
     <code>
-  def user_avatar_path(user_profile: UserProfile) -> str:
-    # WARNING: If this method is changed, you may need to do
-    # a migration similar to
-    # zerver/migrations/0060_move_avatars_to_be_uid_based.py
-    return user_avatar_path_from_ids(
-      user_profile.id, user_profile.realm_id)
+def user_avatar_path(user_profile):
+  # WARNING: If this method is changed, you may need to do
+  # a migration similar to
+  # zerver/migrations/0060_move_avatars_to_be_uid_based.py
+  return user_avatar_path_from_ids(
+    user_profile.id, user_profile.realm_id)
     </code>
     </pre>
 
@@ -156,15 +173,15 @@
 
     <pre>
     <code>
-  // This container might be used for a portal.
-  // If something inside a portal is clicked, that click should bubble
-  // through the React tree. However, on Mobile Safari the click would
-  // never bubble through the *DOM* tree unless an ancestor with onclick
-  // event exists. So we wouldn't see it and dispatch it.
-  // This is why we ensure that non React root containers have inline onclick
-  // defined.
-  // https://github.com/facebook/react/issues/11918
-  const reactRootContainer = container._reactRootContainer;
+// This container might be used for a portal.
+// If something inside a portal is clicked, that click should bubble
+// through the React tree. However, on Mobile Safari the click would
+// never bubble through the *DOM* tree unless an ancestor with onclick
+// event exists. So we wouldn't see it and dispatch it.
+// This is why we ensure that non React root containers have inline onclick
+// defined.
+// https://github.com/facebook/react/issues/11918
+const reactRootContainer = container._reactRootContainer;
     </code>
     </pre>
 
@@ -174,15 +191,15 @@
 
     <pre>
     <code>
-  // Because notifications don’t always have an email, we need to detect
-  // this scenario and only attempt to send emails to people that have
-  // an email address defined. We will later require all notifications
-  // to have an email but for now, product has indicated that we should
-  // do it this way.
-  const sendEmailNotifications = (notifications) => {
-    const toSend = notifications.filter(hasEmail);
-    return sendEmails(toSend);
-  }
+// Because notifications don’t always have an email, we need to detect
+// this scenario and only attempt to send emails to people that have
+// an email address defined. We will later require all notifications
+// to have an email but for now, product has indicated that we should
+// do it this way.
+const sendEmailNotifications = (notifications) => {
+  const toSend = notifications.filter(hasEmail);
+  return sendEmails(toSend);
+}
     </code>
     </pre>
 
