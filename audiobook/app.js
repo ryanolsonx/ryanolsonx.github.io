@@ -130,14 +130,13 @@ let $ = {
 
 // -- STATE
 let state = {
-  playing: false,
   chapter: chapters[0],
 };
 
 // -- RENDER
 
 function render() {
-  $.playPauseBtn.textContent = state.playing ? "Pause" : "Play";
+  $.playPauseBtn.textContent = $.audio.paused ? "Play" : "Pause";
   $.chapterNumber.textContent = `Chapter ${state.chapter.n}`;
   $.chapterName.textContent = state.chapter.name;
   $.nextChapter.textContent =
@@ -167,11 +166,17 @@ function main() {
   state.chapter = place.chapter;
 
   $.audio.setAttribute("src", state.chapter.src);
-  $.audio.currentTime = place.time;
+
+  let set = false;
+  $.audio.addEventListener("loadeddata", () => {
+    if (!set) {
+      $.audio.currentTime = place.time;
+      set = true;
+    }
+  });
 
   $.playPauseBtn.addEventListener("click", () => {
-    state.playing = !state.playing;
-    if (state.playing) {
+    if ($.audio.paused) {
       $.audio.play();
     } else {
       $.audio.pause();
