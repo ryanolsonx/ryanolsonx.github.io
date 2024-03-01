@@ -17,11 +17,11 @@ audio {
 }
 
 button {
-  padding: 15px;
-  font-size: 30px;
+  padding: 20px;
+  font-size: 15px;
   touch-action: manipulation;
   &.play {
-    padding: 50px;
+    padding: 30px;
   }
 }
 
