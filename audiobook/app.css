@@ -19,6 +19,7 @@ audio {
 button {
   padding: 15px;
   font-size: 30px;
+  touch-action: manipulation;
   &.play {
     padding: 50px;
   }
