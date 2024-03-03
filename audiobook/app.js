@@ -135,6 +135,7 @@ function connectEventHandlers() {
     skipForward30SecondsBtnClicked
   );
   $nextChapterBtn.addEventListener("click", nextChapterBtnClicked);
+  $meter.addEventListener("click", meterClicked);
 }
 
 function audioLoadedMetadata() {
@@ -180,6 +181,18 @@ function nextChapterBtnClicked() {
     queuedChapterIndex = nextChapterIndex;
   }
   render();
+}
+
+function meterClicked(event) {
+  const percent = getPercentToChange(event);
+  $audio.currentTime = Math.floor($audio.duration * percent);
+}
+
+function getPercentToChange(event) {
+  const x = event.x - 20;
+  const width = window.innerWidth - 40; /* main */
+
+  return x / width;
 }
 
 function getStartingState() {
