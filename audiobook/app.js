@@ -114,13 +114,13 @@ let $meter = document.querySelector("meter");
 let chapterIndex = 0;
 let loaded = false;
 let queuedChapterIndex = null; // keeps track of chapter change for next render.
+let queuedCurrentTime = null;
 let saverInterval = null;
 
 function main() {
   const startingState = getStartingState();
-  chapterIndex = startingState.chapterIndex;
-  let chapter = chapters[chapterIndex];
-  changeChapter(chapter, chapterIndex, startingState.currentTime);
+  queuedChapterIndex = startingState.chapterIndex;
+  queuedCurrentTime = startingState.currentTime;
   connectEventHandlers();
   setInterval(render, 500);
 }
@@ -216,11 +216,10 @@ function saveState() {
   );
 }
 
-function changeChapter(chapter, chapterIndex, atTime) {
+function changeChapter(chapter, chapterIndex) {
+  $audio.src = chapter.src;
   $chapterNumber.textContent = `Chapter ${chapterIndex + 1}`;
   $chapterTitle.textContent = chapter.name;
-  $audio.src = chapter.src;
-  $audio.currentTime = atTime;
 }
 
 function render() {
@@ -234,7 +233,7 @@ function render() {
     chapterIndex = queuedChapterIndex;
 
     let chapter = chapters[chapterIndex];
-    changeChapter(chapter, chapterIndex, 0);
+    changeChapter(chapter, chapterIndex);
     loaded = false;
 
     queuedChapterIndex = null;
@@ -245,6 +244,11 @@ function render() {
     $duration.textContent = formatTimeSpan($audio.duration);
     $meter.value = $audio.currentTime;
     $meter.max = $audio.duration;
+
+    if (queuedCurrentTime) {
+      $audio.currentTime = queuedCurrentTime;
+      queuedCurrentTime = null;
+    }
   }
 }
 
