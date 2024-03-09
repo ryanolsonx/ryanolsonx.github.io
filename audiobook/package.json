@@ -1,0 +1,18 @@
+{
+  "name": "audiobook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "css": "tailwindcss -i app.css -o app.compiled.css",
+    "css:watch": "tailwindcss -i app.css -o app.compiled.css --watch",
+    "build": "tailwindcss -i app.css -o app.compiled.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0-alpha.7",
+    "tailwindcss": "^4.0.0-alpha.7"
+  }
+}

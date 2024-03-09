@@ -118,25 +118,23 @@ const chapters = [
 /** @type {HTMLAudioElement} */
 const $audio = document.querySelector("audio");
 /** @type {HTMLButtonElement} */
-const $previousChapterBtn = document.getElementById("previous-chapter-btn");
+const $previousChapterBtn = document.querySelector("button[previous-chapter]");
 /** @type {HTMLButtonElement} */
-const $goBack30SecondsBtn = document.getElementById("go-back-30-seconds-btn");
+const $goBack30SecondsBtn = document.querySelector("button[back-30]");
 /** @type {HTMLButtonElement} */
-const $playPauseBtn = document.getElementById("play-pause-btn");
+const $playPauseBtn = document.querySelector("button[play-pause]");
 /** @type {HTMLButtonElement} */
-const $playPauseBtnIcon = $playPauseBtn.querySelector(".material-icons");
+const $playPauseBtnIcon = $playPauseBtn.querySelector("i");
 /** @type {HTMLButtonElement} */
-const $skipForward30SecondsBtn = document.getElementById(
-  "skip-forward-30-seconds-btn"
-);
+const $skipForward30SecondsBtn = document.querySelector("button[forward-30]");
 /** @type {HTMLButtonElement} */
-const $nextChapterBtn = document.getElementById("next-chapter-btn");
+const $nextChapterBtn = document.querySelector("button[next-chapter]");
 
 /** @type {HTMLHeadingElement} */
-const $chapterNumber = document.querySelector("h1");
-const $chapterTitle = document.getElementById("chapter-title-text");
-const $currentTime = document.getElementById("current-time");
-const $duration = document.getElementById("duration");
+const $chapterNumber = document.querySelector("[chapter-number]");
+const $chapterTitle = document.querySelector("[chapter-title]");
+const $currentTime = document.querySelector("[current-time]");
+const $duration = document.querySelector("[duration]");
 /** @type {HTMLMeterElement} */
 const $meter = document.querySelector("meter");
 
