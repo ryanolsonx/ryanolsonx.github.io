@@ -1,10 +1,31 @@
 "use strict";
 
-//#region Data
-let baseurl =
+// -- GLOBALS
+
+const StorageKey = "state";
+
+let chapterIndex = 0;
+let loaded = false;
+/** @type {number|null} */
+let queuedChapterIndex = null; // keeps track of chapter change for next render.
+/** @type {number|null} */
+let queuedCurrentTime = null;
+/** @type {number|undefined} */
+let saverInterval;
+
+// -- DATA
+
+const baseurl =
   "https://archive.org/download/the-fellowship-of-the-ring_soundscape-by-phil-dragash/";
 
-let chapters = [
+/**
+ * @typedef Chapter
+ * @prop {string} name The chapter name
+ * @prop {string} src The href to the mp3 of the audio source.
+ *
+ * @type {Chapter[]}
+ */
+const chapters = [
   {
     name: "A Long-Expected Party",
     src: `${baseurl}01%20-%20A%20Long-Expected%20Party%20%282014%29.mp3`,
@@ -91,41 +112,108 @@ let chapters = [
     src: `${baseurl}22%20-%20The%20Breaking%20of%20the%20Fellowship.mp3`,
   },
 ];
-//#endregion Data
 
-//#region DOM
-let $audio = document.querySelector("audio");
-let $previousChapterBtn = document.getElementById("previous-chapter-btn");
-let $goBack30SecondsBtn = document.getElementById("go-back-30-seconds-btn");
-let $playPauseBtn = document.getElementById("play-pause-btn");
-let $playPauseBtnIcon = document.getElementById("play-pause-btn-icon");
-let $skipForward30SecondsBtn = document.getElementById(
+// -- DOM
+
+/** @type {HTMLAudioElement} */
+const $audio = document.querySelector("audio");
+/** @type {HTMLButtonElement} */
+const $previousChapterBtn = document.getElementById("previous-chapter-btn");
+/** @type {HTMLButtonElement} */
+const $goBack30SecondsBtn = document.getElementById("go-back-30-seconds-btn");
+/** @type {HTMLButtonElement} */
+const $playPauseBtn = document.getElementById("play-pause-btn");
+/** @type {HTMLButtonElement} */
+const $playPauseBtnIcon = $playPauseBtn.querySelector(".material-icons");
+/** @type {HTMLButtonElement} */
+const $skipForward30SecondsBtn = document.getElementById(
   "skip-forward-30-seconds-btn"
 );
-let $nextChapterBtn = document.getElementById("next-chapter-btn");
+/** @type {HTMLButtonElement} */
+const $nextChapterBtn = document.getElementById("next-chapter-btn");
 
-let $chapterNumber = document.querySelector("h1");
-let $chapterTitle = document.getElementById("chapter-title-text");
-let $currentTime = document.getElementById("current-time");
-let $duration = document.getElementById("duration");
-let $meter = document.querySelector("meter");
-//#endregion DOM
+/** @type {HTMLHeadingElement} */
+const $chapterNumber = document.querySelector("h1");
+const $chapterTitle = document.getElementById("chapter-title-text");
+const $currentTime = document.getElementById("current-time");
+const $duration = document.getElementById("duration");
+/** @type {HTMLMeterElement} */
+const $meter = document.querySelector("meter");
 
-let chapterIndex = 0;
-let loaded = false;
-let queuedChapterIndex = null; // keeps track of chapter change for next render.
-let queuedCurrentTime = null;
-let saverInterval = null;
+// -- EVENT HANDLERS
 
-function main() {
-  const startingState = getStartingState();
-  queuedChapterIndex = startingState.chapterIndex;
-  queuedCurrentTime = startingState.currentTime;
-  connectEventHandlers();
-  setInterval(render, 500);
-}
+/**
+ * Switch chapters to the next one. If on the last chapter, don't change chapters.
+ */
+const nextChapterBtnClicked = () => {
+  let nextChapterIndex =
+    chapterIndex < chapters.length - 1 ? chapterIndex + 1 : chapterIndex;
+  if (nextChapterIndex !== chapterIndex) {
+    queuedChapterIndex = nextChapterIndex;
+  }
+};
 
-function connectEventHandlers() {
+/**
+ * Change the currentTime within the current chapter. This allows you to skip around
+ * and find a specific spot in the chapter.
+ *
+ * @param {MouseEvent} event
+ */
+const meterClicked = (event) => {
+  const x = event.x - 20;
+  const width = window.innerWidth - 40; // main
+  const percent = x / width;
+  $audio.currentTime = Math.floor($audio.duration * percent);
+};
+
+/**
+ * Skip forward 30 seconds in the chapter.
+ */
+const skipForward30SecondsBtnClicked = () => {
+  $audio.currentTime += 30;
+  $audio.play();
+};
+
+/**
+ * Toggle play/pause of the current chapter.
+ */
+const playPauseBtnClicked = () => {
+  if ($audio.paused) {
+    $audio.play();
+    startSaving();
+  } else {
+    $audio.pause();
+    clearInterval(saverInterval);
+  }
+};
+
+/**
+ * Go back 30 seconds in the current chapter.
+ */
+const goBack30SecondsBtnClicked = () => {
+  $audio.currentTime -= 30;
+  $audio.play();
+};
+
+/**
+ * Go to the previous chapter. If already on chapter 1, remain there.
+ */
+const previousChapterBtnClicked = () => {
+  let previousChapterIndex = chapterIndex > 0 ? chapterIndex - 1 : 0;
+  if (previousChapterIndex !== chapterIndex) {
+    queuedChapterIndex = previousChapterIndex;
+  }
+};
+
+/**
+ * Once the current chapter has loaded, switch a loaded variable that
+ * render uses.
+ */
+const audioLoadedMetadata = () => {
+  loaded = true;
+};
+
+const connectEventHandlers = () => {
   $audio.addEventListener("loadedmetadata", audioLoadedMetadata);
   $previousChapterBtn.addEventListener("click", previousChapterBtnClicked);
   $goBack30SecondsBtn.addEventListener("click", goBack30SecondsBtnClicked);
@@ -136,127 +224,75 @@ function connectEventHandlers() {
   );
   $nextChapterBtn.addEventListener("click", nextChapterBtnClicked);
   $meter.addEventListener("click", meterClicked);
-}
+};
 
-function audioLoadedMetadata() {
-  loaded = true;
-  render();
-}
+// -- HELPERS
 
-function previousChapterBtnClicked() {
-  let previousChapterIndex = chapterIndex > 0 ? chapterIndex - 1 : 0;
-  if (previousChapterIndex !== chapterIndex) {
-    queuedChapterIndex = previousChapterIndex;
-  }
-  render();
-}
+/**
+ * @typedef State
+ * @prop {number} chapterIndex
+ * @prop {number} currentTime
+ */
 
-function goBack30SecondsBtnClicked() {
-  $audio.currentTime -= 30;
-  $audio.play();
-  render();
-}
-
-function playPauseBtnClicked() {
-  if ($audio.paused) {
-    $audio.play();
-    startSaving();
-  } else {
-    $audio.pause();
-    clearInterval(saverInterval);
-  }
-  render();
-}
-
-function skipForward30SecondsBtnClicked() {
-  $audio.currentTime += 30;
-  $audio.play();
-  render();
-}
-
-function nextChapterBtnClicked() {
-  let nextChapterIndex =
-    chapterIndex < chapters.length - 1 ? chapterIndex + 1 : chapterIndex;
-  if (nextChapterIndex !== chapterIndex) {
-    queuedChapterIndex = nextChapterIndex;
-  }
-  render();
-}
-
-function meterClicked(event) {
-  const percent = getPercentToChange(event);
-  $audio.currentTime = Math.floor($audio.duration * percent);
-}
-
-function getPercentToChange(event) {
-  const x = event.x - 20;
-  const width = window.innerWidth - 40; /* main */
-
-  return x / width;
-}
-
-function getStartingState() {
-  let state = localStorage.getItem("state");
+/**
+ * Get the starting chapter and location within the chapter.
+ * @returns {State}
+ */
+const getStartingState = () => {
+  let state = localStorage.getItem(StorageKey);
   if (!state) {
     return { chapterIndex: 0, currentTime: 0 };
   }
 
   return JSON.parse(state);
-}
+};
 
-function startSaving() {
+/**
+ * Save current audio state every 500 ms.
+ */
+const startSaving = () => {
   saverInterval = setInterval(saveState, 500);
-}
+};
 
-function saveState() {
+/**
+ * Save current audio state.
+ */
+const saveState = () => {
   if (!loaded) return;
   localStorage.setItem(
-    "state",
+    StorageKey,
     JSON.stringify({ chapterIndex, currentTime: $audio.currentTime })
   );
-}
+};
 
-function changeChapter(chapter, chapterIndex) {
+/**
+ * Switch to a different chapter. This handles switching the audio and updating the chapter text on screen.
+ * @param {Chapter} chapter
+ * @param {number} chapterIndex
+ */
+const changeChapter = (chapter, chapterIndex) => {
   $audio.src = chapter.src;
   $chapterNumber.textContent = `Chapter ${chapterIndex + 1}`;
   $chapterTitle.textContent = chapter.name;
-}
+};
 
-function render() {
-  if ($audio.paused) {
-    $playPauseBtnIcon.textContent = "play_arrow";
-  } else {
-    $playPauseBtnIcon.textContent = "pause";
-  }
+// -- RENDER
 
-  if (queuedChapterIndex) {
-    chapterIndex = queuedChapterIndex;
-
-    let chapter = chapters[chapterIndex];
-    changeChapter(chapter, chapterIndex);
-    loaded = false;
-
-    queuedChapterIndex = null;
-  }
-
-  if (loaded) {
-    $currentTime.textContent = formatTimeSpan($audio.currentTime);
-    $duration.textContent = formatTimeSpan($audio.duration);
-    $meter.value = $audio.currentTime;
-    $meter.max = $audio.duration;
-
-    if (queuedCurrentTime) {
-      $audio.currentTime = queuedCurrentTime;
-      queuedCurrentTime = null;
-    }
-  }
-}
-
-function pad(n) {
+/**
+ * Pad so number is formatted as NN
+ * @param {number} n
+ * @returns {string}
+ */
+const pad = (n) => {
   return n.toString().padStart(2, "0");
-}
+};
 
-function formatTimeSpan(totalSeconds) {
+/**
+ * Take a total amount of seconds and break it into a string of HH:MM:SS format.
+ * @param {number} totalSeconds
+ * @returns {string} Formatted as HH:MM:SS
+ */
+const formatTimeSpan = (totalSeconds) => {
   let seconds = Math.floor(totalSeconds % 60);
   let minutes = Math.floor((totalSeconds / 60) % 60);
   let hours = Math.floor(totalSeconds / 3600);
@@ -266,6 +302,57 @@ function formatTimeSpan(totalSeconds) {
   }
 
   return `${pad(minutes)}:${pad(seconds)}`;
-}
+};
 
-main();
+const render = () => {
+  // Play / Pause icon
+  if ($audio.paused) {
+    $playPauseBtnIcon.textContent = "play_arrow";
+  } else {
+    $playPauseBtnIcon.textContent = "pause";
+  }
+
+  // changing chapter
+  if (queuedChapterIndex !== null) {
+    chapterIndex = queuedChapterIndex;
+
+    const chapter = chapters[chapterIndex];
+    changeChapter(chapter, chapterIndex);
+
+    loaded = false; // Reset so that certain things don't render until next audio is loaded.
+
+    // dequeue
+    queuedChapterIndex = null;
+  }
+
+  // Only render these things once the audio has loaded.
+  if (loaded) {
+    $currentTime.textContent = formatTimeSpan($audio.currentTime);
+    $duration.textContent = formatTimeSpan($audio.duration);
+    $meter.value = $audio.currentTime;
+    $meter.max = $audio.duration;
+
+    // changing time within chapter
+    if (queuedCurrentTime !== null) {
+      $audio.currentTime = queuedCurrentTime;
+      queuedCurrentTime = null;
+    }
+  }
+};
+
+// -- MAIN
+
+(() => {
+  if ($audio === null) return;
+  const startingState = getStartingState();
+
+  // These are queued so they can be applied on the next render.
+  queuedChapterIndex = startingState.chapterIndex;
+  queuedCurrentTime = startingState.currentTime;
+
+  connectEventHandlers();
+
+  // Updating every 200ms is enough.
+  setInterval(render, 200);
+  render();
+})();
