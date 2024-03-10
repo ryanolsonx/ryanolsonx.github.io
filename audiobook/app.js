@@ -218,7 +218,7 @@ const connectEventHandlers = () => {
   $playPauseBtn.addEventListener("click", playPauseBtnClicked);
   $skipForward30SecondsBtn.addEventListener(
     "click",
-    skipForward30SecondsBtnClicked
+    skipForward30SecondsBtnClicked,
   );
   $nextChapterBtn.addEventListener("click", nextChapterBtnClicked);
   $meter.addEventListener("click", meterClicked);
@@ -259,7 +259,7 @@ const saveState = () => {
   if (!loaded) return;
   localStorage.setItem(
     StorageKey,
-    JSON.stringify({ chapterIndex, currentTime: $audio.currentTime })
+    JSON.stringify({ chapterIndex, currentTime: $audio.currentTime }),
   );
 };
 
