@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full w-full">
   <head>
     <title>The Fellowship of the Ring</title>
     <meta charset="utf-8" />
@@ -7,45 +7,48 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"
     />
-    <link rel="stylesheet" href="reset.css" />
-    <link rel="stylesheet" href="semantic.css" />
+    <link rel="stylesheet" href="app.compiled.css" />
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
   </head>
-  <body>
+  <body
+    class="grid h-full w-full grid-rows-[max-content_1fr_max-content] bg-white text-gray-700 dark:bg-black dark:text-gray-200"
+  >
     <audio class="hidden"></audio>
-    <header><h1>Chapter 1: A Long-Expected Party</h1></header>
-    <main>
+    <header class="p-8">
+      <h1 class="text-5xl">Chapter 1: A Long-Expected Party</h1>
+    </header>
+    <main class="grid items-center p-8">
       <section>
-        <progress value="0" max="0"></progress>
-        <div class="progress-details">
+        <progress class="w-full" value="0" max="0"></progress>
+        <div class="flex justify-between text-2xl">
           <time id="current-time" datetime="00:00:00">00:00:00</time>
           <time id="duration" datetime="00:00:00">00:00:00</time>
         </div>
       </section>
     </main>
     <footer>
-      <nav>
+      <nav class="grid grid-cols-5 gap-2">
         <button type="button" id="previous-chapter">
-          <i class="material-icons">skip_previous</i>
+          <i class="material-icons !text-4xl">skip_previous</i>
           <span class="sr-only">Go to previous chapter</span>
         </button>
         <button type="button" id="back-30">
-          <i class="material-icons">replay_30</i>
+          <i class="material-icons !text-4xl">replay_30</i>
           <span class="sr-only">Skip back 30 seconds</span>
         </button>
         <button type="button" id="play-pause" class="large">
-          <i class="material-icons">play_arrow</i>
+          <i class="material-icons !text-8xl">play_arrow</i>
           <span class="sr-only">Play</span>
         </button>
         <button type="button" id="forward-30">
-          <i class="material-icons">forward_30</i>
+          <i class="material-icons !text-4xl">forward_30</i>
           <span class="sr-only">Skip forward 30 seconds</span>
         </button>
         <button type="button" id="next-chapter">
-          <i class="material-icons">skip_next</i>
+          <i class="material-icons !text-4xl">skip_next</i>
           <span class="sr-only">Go to next chapter</span>
         </button>
       </nav>
