@@ -125,7 +125,6 @@ const $goBack30SecondsBtn = document.querySelector('button#back-30');
 const $playPauseBtn = document.querySelector('button#play-pause');
 /** @type {HTMLButtonElement} */
 const $playPauseBtnIcon = $playPauseBtn.querySelector('i');
-const $playPauseBtnSrText = $playPauseBtn.querySelector('.sr-only');
 /** @type {HTMLButtonElement} */
 const $skipForward30SecondsBtn = document.querySelector('button#forward-30');
 /** @type {HTMLButtonElement} */
@@ -307,10 +306,8 @@ const render = () => {
   // Play / Pause icon
   if ($audio.paused) {
     $playPauseBtnIcon.textContent = 'play_arrow';
-    $playPauseBtnSrText.textContent = 'Play';
   } else {
     $playPauseBtnIcon.textContent = 'pause';
-    $playPauseBtnSrText.textContent = 'Pause';
   }
 
   // changing chapter
