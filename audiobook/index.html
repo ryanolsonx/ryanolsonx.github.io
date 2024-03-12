@@ -14,22 +14,21 @@
     />
   </head>
   <body
-    class="grid h-full w-full grid-rows-[max-content_1fr_max-content] bg-white text-gray-700 dark:bg-black dark:text-gray-200"
+    class="grid h-full w-full grid-rows-[1fr_max-content] bg-white text-gray-700 dark:bg-black dark:text-gray-200"
   >
     <audio class="hidden"></audio>
-    <header class="p-8">
-      <h1 class="text-5xl">Chapter 1: A Long-Expected Party</h1>
-    </header>
-    <main class="grid items-center p-8">
-      <section>
-        <progress class="w-full" value="0" max="0"></progress>
-        <div class="flex justify-between text-2xl">
-          <time id="current-time" datetime="00:00:00">00:00:00</time>
-          <time id="duration" datetime="00:00:00">00:00:00</time>
-        </div>
-      </section>
+    <main class="grid grid-rows-[1fr_max-content_max-content_max-content] p-8">
+      <div class="grid items-center">
+        <img src="cover.jpg" alt="Cover of the Fellowship of the Ring" />
+      </div>
+      <h1 class="text-3xl">Chapter 1: A Long-Expected Party</h1>
+      <progress class="w-full" value="0" max="0"></progress>
+      <div class="flex justify-between text-2xl">
+        <time id="current-time" datetime="00:00:00">00:00:00</time>
+        <time id="duration" datetime="00:00:00">00:00:00</time>
+      </div>
     </main>
-    <footer>
+    <footer class="py-8">
       <nav class="grid grid-cols-5 gap-2">
         <button type="button" id="previous-chapter">
           <i class="material-icons !text-4xl">skip_previous</i>

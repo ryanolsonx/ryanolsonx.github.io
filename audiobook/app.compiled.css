@@ -630,8 +630,26 @@ video {
   .grid-cols-\[max-content_max-content_1fr_max-content_max-content\] {
     grid-template-columns: max-content max-content 1fr max-content max-content;
   }
+  .grid-rows-\[1fr_max-content\] {
+    grid-template-rows: 1fr max-content;
+  }
+  .grid-rows-\[1fr_max-content_max-content_max-content\] {
+    grid-template-rows: 1fr max-content max-content max-content;
+  }
+  .grid-rows-\[max-content_1fr_1fr\] {
+    grid-template-rows: max-content 1fr 1fr;
+  }
   .grid-rows-\[max-content_1fr_max-content\] {
     grid-template-rows: max-content 1fr max-content;
+  }
+  .grid-rows-\[max-content_max-content_1fr\] {
+    grid-template-rows: max-content max-content 1fr;
+  }
+  .grid-rows-\[max-content_max-content_max-content_1fr\] {
+    grid-template-rows: max-content max-content max-content 1fr;
+  }
+  .grid-rows-\[max-content_max-content_max-content_max-content\] {
+    grid-template-rows: max-content max-content max-content max-content;
   }
   .items-center {
     align-items: center;
@@ -665,9 +683,16 @@ video {
     padding-top: 0.625rem;
     padding-bottom: 0.625rem;
   }
+  .py-8 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
   .px-3 {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
+  }
+  .align-middle {
+    vertical-align: middle;
   }
   .\!text-3xl {
     font-size: 1.875rem!important;
@@ -688,6 +713,10 @@ video {
   .text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
+  }
+  .text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
   .text-4xl {
     font-size: 2.25rem;

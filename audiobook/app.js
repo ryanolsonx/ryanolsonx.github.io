@@ -132,7 +132,7 @@ const $skipForward30SecondsBtn = document.querySelector('button#forward-30');
 const $nextChapterBtn = document.querySelector('button#next-chapter');
 
 /** @type {HTMLHeadingElement} */
-const $chapter = document.querySelector('header > h1');
+const $chapter = document.querySelector('h1');
 /** @type {HTMLTimeElement} */
 const $currentTime = document.querySelector('time#current-time');
 /** @type {HTMLTimeElement} */
