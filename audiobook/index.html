@@ -7,51 +7,50 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"
     />
-    <link rel="stylesheet" href="app.compiled.css" />
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="semantic.css" />
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
   </head>
-  <body class="dark:bg-black">
-    <main class="p-5">
-      <audio class="hidden w-full"></audio>
-      <h1 chapter-number class="text-5xl dark:text-gray-200">Chapter 1</h1>
-      <p chapter-title class="mb-20 text-xl text-gray-500 dark:text-gray-400">
-        A Long-Expected Party
-      </p>
-
-      <meter
-        value="0"
-        min="0"
-        max="0"
-        class="w-full [&::-webkit-meter-bar]:dark:bg-gray-700 [&::-webkit-meter-optimum-value]:dark:bg-green-500"
-      ></meter>
-      <div class="flex justify-between text-lg">
-        <div current-time class="dark:text-gray-400">00:00:00</div>
-        <div duration class="dark:text-gray-400">00:00:00</div>
-      </div>
+  <body>
+    <audio class="hidden"></audio>
+    <header><h1>Chapter 1: A Long-Expected Party</h1></header>
+    <main>
+      <section>
+        <progress value="0" max="0"></progress>
+        <div class="progress-details">
+          <time id="current-time" datetime="00:00:00">00:00:00</time>
+          <time id="duration" datetime="00:00:00">00:00:00</time>
+        </div>
+      </section>
     </main>
+    <footer>
+      <nav>
+        <button type="button" id="previous-chapter">
+          <i class="material-icons">skip_previous</i>
+          <span class="sr-only">Go to previous chapter</span>
+        </button>
+        <button type="button" id="back-30">
+          <i class="material-icons">replay_30</i>
+          <span class="sr-only">Skip back 30 seconds</span>
+        </button>
+        <button type="button" id="play-pause" class="large">
+          <i class="material-icons">play_arrow</i>
+          <span class="sr-only">Play</span>
+        </button>
+        <button type="button" id="forward-30">
+          <i class="material-icons">forward_30</i>
+          <span class="sr-only">Skip forward 30 seconds</span>
+        </button>
+        <button type="button" id="next-chapter">
+          <i class="material-icons">skip_next</i>
+          <span class="sr-only">Go to next chapter</span>
+        </button>
+      </nav>
+    </footer>
 
-    <nav
-      class="fixed bottom-0 left-0 grid h-32 w-full grid-cols-[max-content_max-content_1fr_max-content_max-content] gap-2.5 bg-gray-200 dark:bg-gray-900 dark:text-gray-200"
-    >
-      <button type="button" previous-chapter class="py-2.5 px-3">
-        <i class="material-icons !text-3xl">skip_previous</i>
-      </button>
-      <button type="button" back-30 class="py-2.5 px-3">
-        <i class="material-icons !text-3xl">replay_30</i>
-      </button>
-      <button type="button" play-pause>
-        <i class="material-icons !text-7xl">play_arrow</i>
-      </button>
-      <button type="button" forward-30 class="py-2.5 px-3">
-        <i class="material-icons !text-3xl">forward_30</i>
-      </button>
-      <button type="button" next-chapter class="py-2.5 px-3">
-        <i class="material-icons !text-3xl">skip_next</i>
-      </button>
-    </nav>
     <script src="app.js"></script>
   </body>
 </html>

@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 // -- GLOBALS
 
-const StorageKey = "state";
+const StorageKey = 'state';
 
 let chapterIndex = 0;
 let loaded = false;
@@ -16,7 +16,7 @@ let saverInterval;
 // -- DATA
 
 const baseurl =
-  "https://archive.org/download/the-fellowship-of-the-ring_soundscape-by-phil-dragash/";
+  'https://archive.org/download/the-fellowship-of-the-ring_soundscape-by-phil-dragash/';
 
 /**
  * @typedef Chapter
@@ -27,88 +27,88 @@ const baseurl =
  */
 const chapters = [
   {
-    name: "A Long-Expected Party",
+    name: 'A Long-Expected Party',
     src: `${baseurl}01%20-%20A%20Long-Expected%20Party%20%282014%29.mp3`,
   },
   {
-    name: "The Shadow of the Past",
+    name: 'The Shadow of the Past',
     src: `${baseurl}02%20-%20The%20Shadow%20of%20the%20Past%20%282014%29.mp3`,
   },
   {
-    name: "Three Is Company",
+    name: 'Three Is Company',
     src: `${baseurl}03%20-%20Three%20Is%20Company%20%282014%29.mp3`,
   },
   {
-    name: "A Shortcut to Mushrooms",
+    name: 'A Shortcut to Mushrooms',
     src: `${baseurl}04%20-%20A%20Shortcut%20to%20Mushrooms.mp3`,
   },
   {
-    name: "A Conspiracy Unmasked",
+    name: 'A Conspiracy Unmasked',
     src: `${baseurl}05%20-%20A%20Conspiracy%20Unmasked.mp3`,
   },
   {
-    name: "The Old Forest",
+    name: 'The Old Forest',
     src: `${baseurl}06%20-%20The%20Old%20Forest.mp3`,
   },
   {
-    name: "In The House of Tom Bombadil",
+    name: 'In The House of Tom Bombadil',
     src: `${baseurl}07%20-%20In%20The%20House%20of%20Tom%20Bombadil.mp3`,
   },
   {
-    name: "Fog on the Barrow Downs",
+    name: 'Fog on the Barrow Downs',
     src: `${baseurl}08%20-%20Fog%20on%20the%20Barrow%20Downs.mp3`,
   },
   {
-    name: "At the Sign of the Prancing Pony",
+    name: 'At the Sign of the Prancing Pony',
     src: `${baseurl}09%20-%20At%20the%20Sign%20of%20the%20Prancing%20Pony.mp3`,
   },
-  { name: "Strider", src: `${baseurl}10%20-%20Strider.mp3` },
+  { name: 'Strider', src: `${baseurl}10%20-%20Strider.mp3` },
   {
-    name: "A Knife in the Dark",
+    name: 'A Knife in the Dark',
     src: `${baseurl}11%20-%20A%20Knife%20in%20the%20Dark.mp3`,
   },
   {
-    name: "Flight to the Ford",
+    name: 'Flight to the Ford',
     src: `${baseurl}12%20-%20Flight%20to%20the%20Ford.mp3`,
   },
   {
-    name: "Many Meetings",
+    name: 'Many Meetings',
     src: `${baseurl}13%20-%20Many%20Meetings.mp3`,
   },
   {
-    name: "The Council of Elrond",
+    name: 'The Council of Elrond',
     src: `${baseurl}14%20-%20The%20Council%20of%20Elrond%20256.mp3`,
   },
   {
-    name: "The Ring Goes South",
+    name: 'The Ring Goes South',
     src: `${baseurl}15%20-%20The%20Ring%20Goes%20South.mp3`,
   },
   {
-    name: "A Journey In The Dark",
+    name: 'A Journey In The Dark',
     src: `${baseurl}16%20-%20A%20Journey%20In%20The%20Dark.mp3`,
   },
   {
-    name: "The Bridge of Khazad-Dum",
+    name: 'The Bridge of Khazad-Dum',
     src: `${baseurl}17%20-%20The%20Bridge%20of%20Khazad-Dum.mp3`,
   },
   {
-    name: "Lothlorien",
+    name: 'Lothlorien',
     src: `${baseurl}18%20-%20Lothlorien%20%282013%29.mp3`,
   },
   {
-    name: "Mirror of Galadriel",
+    name: 'Mirror of Galadriel',
     src: `${baseurl}19%20-%20Mirror%20of%20Galadriel.mp3`,
   },
   {
-    name: "Farewell to Lorien",
+    name: 'Farewell to Lorien',
     src: `${baseurl}20%20-%20Farewell%20to%20Lorien.mp3`,
   },
   {
-    name: "The Great River",
+    name: 'The Great River',
     src: `${baseurl}21%20-%20The%20Great%20River%20%282013%29.mp3`,
   },
   {
-    name: "The Breaking of the Fellowship",
+    name: 'The Breaking of the Fellowship',
     src: `${baseurl}22%20-%20The%20Breaking%20of%20the%20Fellowship.mp3`,
   },
 ];
@@ -116,27 +116,29 @@ const chapters = [
 // -- DOM
 
 /** @type {HTMLAudioElement} */
-const $audio = document.querySelector("audio");
+const $audio = document.querySelector('audio');
 /** @type {HTMLButtonElement} */
-const $previousChapterBtn = document.querySelector("button[previous-chapter]");
+const $previousChapterBtn = document.querySelector('button#previous-chapter');
 /** @type {HTMLButtonElement} */
-const $goBack30SecondsBtn = document.querySelector("button[back-30]");
+const $goBack30SecondsBtn = document.querySelector('button#back-30');
 /** @type {HTMLButtonElement} */
-const $playPauseBtn = document.querySelector("button[play-pause]");
+const $playPauseBtn = document.querySelector('button#play-pause');
 /** @type {HTMLButtonElement} */
-const $playPauseBtnIcon = $playPauseBtn.querySelector("i");
+const $playPauseBtnIcon = $playPauseBtn.querySelector('i');
+const $playPauseBtnSrText = $playPauseBtn.querySelector('.sr-only');
 /** @type {HTMLButtonElement} */
-const $skipForward30SecondsBtn = document.querySelector("button[forward-30]");
+const $skipForward30SecondsBtn = document.querySelector('button#forward-30');
 /** @type {HTMLButtonElement} */
-const $nextChapterBtn = document.querySelector("button[next-chapter]");
+const $nextChapterBtn = document.querySelector('button#next-chapter');
 
 /** @type {HTMLHeadingElement} */
-const $chapterNumber = document.querySelector("[chapter-number]");
-const $chapterTitle = document.querySelector("[chapter-title]");
-const $currentTime = document.querySelector("[current-time]");
-const $duration = document.querySelector("[duration]");
-/** @type {HTMLMeterElement} */
-const $meter = document.querySelector("meter");
+const $chapter = document.querySelector('header > h1');
+/** @type {HTMLTimeElement} */
+const $currentTime = document.querySelector('time#current-time');
+/** @type {HTMLTimeElement} */
+const $duration = document.querySelector('time#duration');
+/** @type {HTMLProgressElement} */
+const $progress = document.querySelector('progress');
 
 // -- EVENT HANDLERS
 
@@ -157,7 +159,7 @@ const nextChapterBtnClicked = () => {
  *
  * @param {MouseEvent} event
  */
-const meterClicked = (event) => {
+const progressClicked = (event) => {
   const x = event.x - 20;
   const width = window.innerWidth - 40; // main
   const percent = x / width;
@@ -212,16 +214,16 @@ const audioLoadedMetadata = () => {
 };
 
 const connectEventHandlers = () => {
-  $audio.addEventListener("loadedmetadata", audioLoadedMetadata);
-  $previousChapterBtn.addEventListener("click", previousChapterBtnClicked);
-  $goBack30SecondsBtn.addEventListener("click", goBack30SecondsBtnClicked);
-  $playPauseBtn.addEventListener("click", playPauseBtnClicked);
+  $audio.addEventListener('loadedmetadata', audioLoadedMetadata);
+  $previousChapterBtn.addEventListener('click', previousChapterBtnClicked);
+  $goBack30SecondsBtn.addEventListener('click', goBack30SecondsBtnClicked);
+  $playPauseBtn.addEventListener('click', playPauseBtnClicked);
   $skipForward30SecondsBtn.addEventListener(
-    "click",
+    'click',
     skipForward30SecondsBtnClicked,
   );
-  $nextChapterBtn.addEventListener("click", nextChapterBtnClicked);
-  $meter.addEventListener("click", meterClicked);
+  $nextChapterBtn.addEventListener('click', nextChapterBtnClicked);
+  $progress.addEventListener('click', progressClicked);
 };
 
 // -- HELPERS
@@ -270,8 +272,7 @@ const saveState = () => {
  */
 const changeChapter = (chapter, chapterIndex) => {
   $audio.src = chapter.src;
-  $chapterNumber.textContent = `Chapter ${chapterIndex + 1}`;
-  $chapterTitle.textContent = chapter.name;
+  $chapter.textContent = `Chapter ${chapterIndex + 1}: ${chapter.name}`;
 };
 
 // -- RENDER
@@ -282,7 +283,7 @@ const changeChapter = (chapter, chapterIndex) => {
  * @returns {string}
  */
 const pad = (n) => {
-  return n.toString().padStart(2, "0");
+  return n.toString().padStart(2, '0');
 };
 
 /**
@@ -305,9 +306,11 @@ const formatTimeSpan = (totalSeconds) => {
 const render = () => {
   // Play / Pause icon
   if ($audio.paused) {
-    $playPauseBtnIcon.textContent = "play_arrow";
+    $playPauseBtnIcon.textContent = 'play_arrow';
+    $playPauseBtnSrText.textContent = 'Play';
   } else {
-    $playPauseBtnIcon.textContent = "pause";
+    $playPauseBtnIcon.textContent = 'pause';
+    $playPauseBtnSrText.textContent = 'Pause';
   }
 
   // changing chapter
@@ -325,10 +328,12 @@ const render = () => {
 
   // Only render these things once the audio has loaded.
   if (loaded) {
+    $currentTime.dateTime = formatTimeSpan($audio.currentTime);
     $currentTime.textContent = formatTimeSpan($audio.currentTime);
+    $duration.dateTime = formatTimeSpan($audio.duration);
     $duration.textContent = formatTimeSpan($audio.duration);
-    $meter.value = $audio.currentTime;
-    $meter.max = $audio.duration;
+    $progress.value = $audio.currentTime;
+    $progress.max = $audio.duration;
 
     // changing time within chapter
     if (queuedCurrentTime !== null) {
